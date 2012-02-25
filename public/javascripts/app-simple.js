@@ -1,14 +1,7 @@
-
-/**
- * Module dependencies.
- */
-
-var express = require('express')
-  , routes = require('./routes');
+var express = require('express');
+var ArticleProvider = require('./articleprovider-memory').ArticleProvider;
 
 var app = module.exports = express.createServer();
-
-// Configuration
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -28,9 +21,12 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
-// Routes
+var articleProvider= new ArticleProvider();
 
-app.get('/', routes.index);
+app.get('/', function(req, res){
+  articleProvider.findAll(function(error, docs){
+      res.send(docs);
+  });
+})
 
 app.listen(3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
