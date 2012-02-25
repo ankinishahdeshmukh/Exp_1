@@ -1,3 +1,4 @@
+// Basic http server, doesnt do much
 var http = require("http");
 
 http.createServer(function(request, response) {
